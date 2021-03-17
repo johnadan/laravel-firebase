@@ -10,13 +10,13 @@ use Kreait\Firebase\ServiceAccount;
 
 class FirebaseController extends Controller
 {
-    protected $database;
+    // protected $database;
 
-    public function __construct()
-    {
-        $this->database = app('firebase.database');
-    }
-    
+    // public function __construct()
+    // {
+    //     $this->database = app('firebase.database');
+    // }
+
     /**
      * Display a listing of the resource.
      *
@@ -24,24 +24,29 @@ class FirebaseController extends Controller
      */
     public function index()
     {
-        // $serviceAccount = ServiceAccount::fromJsonFile(__DIR__.'/laravelfirebase-9d875-firebase-adminsdk-wltre-a1b8486a6c.json');
-        $serviceAccount = ServiceAccount::fromJsonFile(__DIR__.'/laravel-firebase-9b32e-default-rtdb-export.json');
+        // $serviceAccount = ServiceAccount::fromJsonFile(__DIR__.'/FirebaseKey.json');
         $firebase = (new Factory)
-        ->withServiceAccount($serviceAccount)
-        // ->withDatabaseUri('https://laravelfirebase-9d875.firebaseio.com/')
-        ->withDatabaseUri('https://laravel-firebase-9b32e-default-rtdb.firebaseio.com/')
-        ->create();
+        // ->withServiceAccount($serviceAccount)
+        ->withServiceAccount(__DIR__.'/FirebaseKey.json')
+        // ->withDatabaseUri('https://laravel-firebase-9b32e.firebaseio.com/')
+        ->withDatabaseUri('https://laravel-firebase-9b32e.firebaseio.com/');
+        // ->withDatabaseUri('https://laravel-firebase-9b32e-default-rtdb.firebaseio.com/')
+        // ->create();
 
-        $database = $firebase->getDatabase();
+        // $database = $firebase->getDatabase();
+        $database = $firebase->createDatabase();
 
-        $newPost = $database
+        // $newPost = $database
+        $createPost    =   $database
         ->getReference('blog/posts')
         ->push([
         'title' => 'Laravel FireBase Tutorial' ,
-        'category' => 'Laravel'
+        // 'category' => 'Laravel'
+        'body'  =>  'This is really a cool database that is managed in real time.'
         ]);
         echo '<pre>';
-        print_r($newPost->getvalue());
+        // print_r($newPost->getvalue());
+        print_r($createPost->getvalue());
     }
 
     /**

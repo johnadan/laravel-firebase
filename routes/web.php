@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\FirebaseController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,4 +17,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('firebase','FirebaseController@index');
+// Route::get('firebase','FirebaseController@index');
+Route::get('firebase', [FirebaseController::class, 'index']);
+// ->name('get.appointment')
